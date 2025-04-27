@@ -1,0 +1,497 @@
+openapi: 3.0.1
+info:
+    title: 实训打卡
+    version: 1.0.0
+servers:
+    - url: /
+tags:
+    - name: Face
+paths:
+    /users/me/face:
+        get:
+            deprecated: false
+            description: 获取已登录用户的人脸数据信息，如果尚未设置则返回404错误
+            operationId: users_me_face_get
+            parameters:
+                - description: 用户ID
+                  explode: true
+                  in: query
+                  name: userId
+                  required: true
+                  schema:
+                      format: int
+                      type: integer
+                      x-oapi-codegen-extra-tags:
+                          binding: required,gt=0
+                  style: form
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessWithData'
+                                    - properties:
+                                          data:
+                                              properties:
+                                                  faceId:
+                                                      description: 人脸数据ID
+                                                      format: int
+                                                      readOnly: true
+                                                      type: integer
+                                                      x-go-type-skip-optional-pointer: true
+                                                  userId:
+                                                      description: 用户ID
+                                                      format: int
+                                                      readOnly: true
+                                                      type: integer
+                                                      x-go-type-skip-optional-pointer: true
+                                                  faceImageBase64:
+                                                      description: 人脸图像的Base64编码
+                                                      type: string
+                                                      x-go-type-skip-optional-pointer: true
+                                                  createdAt:
+                                                      description: 创建时间（Unix时间戳，单位：秒）
+                                                      format: int
+                                                      readOnly: true
+                                                      type: integer
+                                                      x-go-type-skip-optional-pointer: true
+                                                  updatedAt:
+                                                      description: 最后更新时间（Unix时间戳，单位：秒）
+                                                      format: int
+                                                      readOnly: true
+                                                      type: integer
+                                                      x-go-type-skip-optional-pointer: true
+                                              required:
+                                                  - faceImageBase64
+                                              type: object
+                                              x-apifox-orders:
+                                                  - faceId
+                                                  - userId
+                                                  - faceImageBase64
+                                                  - createdAt
+                                                  - updatedAt
+                                              x-apifox-ignore-properties: []
+                                      type: object
+                                      x-apifox-orders:
+                                          - data
+                                      x-apifox-ignore-properties: []
+                    description: 成功返回当前用户的人脸数据
+                    x-apifox-name: 成功
+                '401':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Unauthorized'
+                    description: 用户未登录或提供的Token无效/过期
+                    x-apifox-name: 没有权限
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/NotFound'
+                    description: 当前用户尚未设置人脸数据
+                    x-apifox-name: 记录不存在
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/InternalServerError'
+                    description: 服务器内部错误，获取人脸数据时发生异常
+                    x-apifox-name: 服务器错误
+            security: []
+            summary: 获取当前用户的人脸数据
+            tags:
+                - Face
+                - Face
+            x-apifox-folder: Face
+            x-apifox-status: released
+            x-run-in-apifox: https://apifox.com/web/project/6074043/apis/api-288888585-run
+            x-openapi-router-controller: openapi_server.controllers.face_controller
+        put:
+            deprecated: false
+            description: 创建或更新已登录用户的人脸数据信息，如果存在则更新，不存在则创建
+            operationId: users_me_face_put
+            parameters: []
+            requestBody:
+                $ref: '#/components/requestBodies/inline_object'
+                content:
+                    application/json:
+                        schema:
+                            properties:
+                                userId:
+                                    description: 用户ID
+                                    format: int
+                                    type: integer
+                                    x-go-type-skip-optional-pointer: true
+                                    x-oapi-codegen-extra-tags:
+                                        binding: required,gt=0
+                                faceImageBase64:
+                                    description: 人脸图像的Base64编码
+                                    type: string
+                                    x-go-type-skip-optional-pointer: true
+                                    x-oapi-codegen-extra-tags:
+                                        binding: required
+                            required:
+                                - faceImageBase64
+                                - userId
+                            type: object
+                            x-apifox-orders:
+                                - userId
+                                - faceImageBase64
+                            x-apifox-ignore-properties: []
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessWithData'
+                                    - properties:
+                                          data:
+                                              properties:
+                                                  faceId:
+                                                      description: 人脸数据ID
+                                                      format: int
+                                                      readOnly: true
+                                                      type: integer
+                                                      x-go-type-skip-optional-pointer: true
+                                                  userId:
+                                                      description: 用户ID
+                                                      format: int
+                                                      readOnly: true
+                                                      type: integer
+                                                      x-go-type-skip-optional-pointer: true
+                                                  faceImageBase64:
+                                                      description: 人脸图像的Base64编码
+                                                      type: string
+                                                      x-go-type-skip-optional-pointer: true
+                                                  createdAt:
+                                                      description: 创建时间（Unix时间戳，单位：秒）
+                                                      format: int
+                                                      readOnly: true
+                                                      type: integer
+                                                      x-go-type-skip-optional-pointer: true
+                                                  updatedAt:
+                                                      description: 最后更新时间（Unix时间戳，单位：秒）
+                                                      format: int
+                                                      readOnly: true
+                                                      type: integer
+                                                      x-go-type-skip-optional-pointer: true
+                                              required:
+                                                  - faceImageBase64
+                                              type: object
+                                              x-apifox-orders:
+                                                  - faceId
+                                                  - userId
+                                                  - faceImageBase64
+                                                  - createdAt
+                                                  - updatedAt
+                                              x-apifox-ignore-properties: []
+                                      type: object
+                                      x-apifox-orders:
+                                          - data
+                                      x-apifox-ignore-properties: []
+                    description: 人脸数据更新成功
+                    x-apifox-name: 成功
+                '201':
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessWithData'
+                                    - properties:
+                                          data:
+                                              properties:
+                                                  faceId:
+                                                      description: 人脸数据ID
+                                                      format: int
+                                                      readOnly: true
+                                                      type: integer
+                                                      x-go-type-skip-optional-pointer: true
+                                                  userId:
+                                                      description: 用户ID
+                                                      format: int
+                                                      readOnly: true
+                                                      type: integer
+                                                      x-go-type-skip-optional-pointer: true
+                                                  createdAt:
+                                                      description: 创建时间（Unix时间戳，单位：秒）
+                                                      format: int
+                                                      readOnly: true
+                                                      type: integer
+                                                      x-go-type-skip-optional-pointer: true
+                                                  updatedAt:
+                                                      description: 最后更新时间（Unix时间戳，单位：秒）
+                                                      format: int
+                                                      readOnly: true
+                                                      type: integer
+                                                      x-go-type-skip-optional-pointer: true
+                                              type: object
+                                              x-apifox-orders:
+                                                  - faceId
+                                                  - userId
+                                                  - createdAt
+                                                  - updatedAt
+                                              x-apifox-ignore-properties: []
+                                      type: object
+                                      x-apifox-orders:
+                                          - data
+                                      x-apifox-ignore-properties: []
+                    description: 人脸数据创建成功
+                    x-apifox-name: 成功
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BadRequest'
+                    description: 请求参数错误，例如提供的Base64格式不正确或人脸识别失败
+                    x-apifox-name: 请求有误
+                '401':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Unauthorized'
+                    description: 用户未登录或提供的Token无效/过期
+                    x-apifox-name: 没有权限
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/InternalServerError'
+                    description: 服务器内部错误，保存人脸数据时发生异常
+                    x-apifox-name: 服务器错误
+            security: []
+            summary: 创建或更新当前用户的人脸数据
+            tags:
+                - Face
+                - Face
+            x-apifox-folder: Face
+            x-apifox-status: released
+            x-run-in-apifox: https://apifox.com/web/project/6074043/apis/api-288888586-run
+            x-openapi-router-controller: openapi_server.controllers.face_controller
+    /users/me/face/verify:
+        post:
+            deprecated: false
+            description: 验证提供的人脸数据是否与当前用户的人脸数据匹配
+            operationId: users_me_face_verify_post
+            parameters: []
+            requestBody:
+                $ref: '#/components/requestBodies/inline_object_1'
+                content:
+                    application/json:
+                        schema:
+                            description: 人脸验证请求数据
+                            properties:
+                                userId:
+                                    description: 用户ID
+                                    format: int
+                                    readOnly: true
+                                    type: integer
+                                    x-go-type-skip-optional-pointer: true
+                                faceImagesBase64:
+                                    description: 待验证的人脸图像Base64编码数组
+                                    items:
+                                        type: string
+                                    type: array
+                                    x-oapi-codegen-extra-tags:
+                                        binding: required,min=1
+                            required:
+                                - faceImagesBase64
+                                - userId
+                            type: object
+                            x-apifox-orders:
+                                - userId
+                                - faceImagesBase64
+                            x-apifox-ignore-properties: []
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessWithData'
+                                    - properties:
+                                          data:
+                                              description: 人脸验证响应数据
+                                              properties:
+                                                  isMatch:
+                                                      description: 人脸是否匹配
+                                                      type: boolean
+                                                      x-go-type-skip-optional-pointer: true
+                                              required:
+                                                  - isMatch
+                                              type: object
+                                              x-apifox-orders:
+                                                  - isMatch
+                                              x-apifox-ignore-properties: []
+                                      type: object
+                                      x-apifox-orders:
+                                          - data
+                                      x-apifox-ignore-properties: []
+                    description: 人脸验证成功，返回匹配结果
+                    x-apifox-name: 成功
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BadRequest'
+                    description: 请求参数错误，例如提供的Base64格式不正确或人脸识别失败
+                    x-apifox-name: 请求有误
+                '401':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Unauthorized'
+                    description: 用户未登录或提供的Token无效/过期
+                    x-apifox-name: 没有权限
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/NotFound'
+                    description: 当前用户尚未设置人脸数据，无法进行验证
+                    x-apifox-name: 记录不存在
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/InternalServerError'
+                    description: 服务器内部错误，处理批量人脸验证时发生异常
+                    x-apifox-name: 服务器错误
+            security: []
+            summary: 验证人脸数据
+            tags:
+                - Face
+                - Face
+            x-apifox-folder: Face
+            x-apifox-status: released
+            x-run-in-apifox: https://apifox.com/web/project/6074043/apis/api-288888587-run
+            x-openapi-router-controller: openapi_server.controllers.face_controller
+components:
+    requestBodies:
+        inline_object_1:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/inline_object_1'
+        inline_object:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/inline_object'
+    schemas:
+        BaseResponse:
+            properties:
+                code:
+                    description: 响应码，0表示成功，1表示失败
+                    enum:
+                        - 0
+                        - 1
+                    type: integer
+                    x-go-type-skip-optional-pointer: true
+            required:
+                - code
+            type: object
+            x-apifox-orders:
+                - code
+            x-apifox-ignore-properties: []
+            x-apifox-folder: Schemas
+        BadRequest:
+            allOf:
+                - $ref: '#/components/schemas/BaseResponse'
+                - $ref: '#/components/schemas/BadRequest_allOf'
+            x-apifox-folder: Response
+        InternalServerError:
+            allOf:
+                - $ref: '#/components/schemas/BaseResponse'
+                - $ref: '#/components/schemas/BadRequest_allOf'
+            x-apifox-folder: Response
+        NotFound:
+            allOf:
+                - $ref: '#/components/schemas/BaseResponse'
+                - $ref: '#/components/schemas/BadRequest_allOf'
+            x-apifox-folder: Response
+        Unauthorized:
+            allOf:
+                - $ref: '#/components/schemas/BaseResponse'
+                - $ref: '#/components/schemas/BadRequest_allOf'
+            x-apifox-folder: Response
+        SuccessWithData:
+            allOf:
+                - $ref: '#/components/schemas/BaseResponse'
+                - $ref: '#/components/schemas/SuccessWithData_allOf'
+            x-apifox-folder: Response
+        inline_object:
+            properties:
+                userId:
+                    description: 用户ID
+                    format: int
+                    type: integer
+                    x-go-type-skip-optional-pointer: true
+                    x-oapi-codegen-extra-tags:
+                        binding: required,gt=0
+                faceImageBase64:
+                    description: 人脸图像的Base64编码
+                    type: string
+                    x-go-type-skip-optional-pointer: true
+                    x-oapi-codegen-extra-tags:
+                        binding: required
+            required:
+                - faceImageBase64
+                - userId
+            type: object
+            x-apifox-orders:
+                - userId
+                - faceImageBase64
+            x-apifox-ignore-properties: []
+        inline_object_1:
+            description: 人脸验证请求数据
+            properties:
+                userId:
+                    description: 用户ID
+                    format: int
+                    readOnly: true
+                    type: integer
+                    x-go-type-skip-optional-pointer: true
+                faceImagesBase64:
+                    description: 待验证的人脸图像Base64编码数组
+                    items:
+                        type: string
+                    type: array
+                    x-oapi-codegen-extra-tags:
+                        binding: required,min=1
+            required:
+                - faceImagesBase64
+                - userId
+            type: object
+            x-apifox-orders:
+                - userId
+                - faceImagesBase64
+            x-apifox-ignore-properties: []
+        BadRequest_allOf:
+            properties:
+                code:
+                    type: string
+                message:
+                    type: string
+            required:
+                - message
+        SuccessWithData_allOf:
+            properties:
+                code:
+                    type: string
+                data:
+                    oneOf:
+                        - description: 具体数据结构需在各API中定义
+                          properties: {}
+                          type: object
+                          x-apifox-orders: []
+                          x-apifox-ignore-properties: []
+                        - description: 具体数据结构需在各API中定义
+                          items:
+                              type: string
+                          type: array
+            required:
+                - data
+    securitySchemes: {}

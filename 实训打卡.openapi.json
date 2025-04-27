@@ -1,0 +1,606 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "实训打卡",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Face"
+    }
+  ],
+  "paths": {
+    "/users/me/face": {
+      "get": {
+        "summary": "获取当前用户的人脸数据",
+        "deprecated": false,
+        "description": "获取已登录用户的人脸数据信息，如果尚未设置则返回404错误",
+        "tags": [
+          "Face"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "用户ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int",
+              "x-oapi-codegen-extra-tags": {
+                "binding": "required,gt=0"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功返回当前用户的人脸数据",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessWithData"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "faceId": {
+                              "type": "integer",
+                              "format": "int",
+                              "description": "人脸数据ID",
+                              "readOnly": true,
+                              "x-go-type-skip-optional-pointer": true
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "format": "int",
+                              "description": "用户ID",
+                              "readOnly": true,
+                              "x-go-type-skip-optional-pointer": true
+                            },
+                            "faceImageBase64": {
+                              "type": "string",
+                              "description": "人脸图像的Base64编码",
+                              "x-go-type-skip-optional-pointer": true
+                            },
+                            "createdAt": {
+                              "type": "integer",
+                              "format": "int",
+                              "description": "创建时间（Unix时间戳，单位：秒）",
+                              "readOnly": true,
+                              "x-go-type-skip-optional-pointer": true
+                            },
+                            "updatedAt": {
+                              "type": "integer",
+                              "format": "int",
+                              "description": "最后更新时间（Unix时间戳，单位：秒）",
+                              "readOnly": true,
+                              "x-go-type-skip-optional-pointer": true
+                            }
+                          },
+                          "required": [
+                            "faceImageBase64"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "用户未登录或提供的Token无效/过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "当前用户尚未设置人脸数据",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "500": {
+            "description": "服务器内部错误，获取人脸数据时发生异常",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "创建或更新当前用户的人脸数据",
+        "deprecated": false,
+        "description": "创建或更新已登录用户的人脸数据信息，如果存在则更新，不存在则创建",
+        "tags": [
+          "Face"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "integer",
+                    "format": "int",
+                    "description": "用户ID",
+                    "x-go-type-skip-optional-pointer": true,
+                    "x-oapi-codegen-extra-tags": {
+                      "binding": "required"
+                    }
+                  },
+                  "faceImageBase64": {
+                    "type": "string",
+                    "description": "人脸图像的Base64编码",
+                    "x-go-type-skip-optional-pointer": true,
+                    "x-oapi-codegen-extra-tags": {
+                      "binding": "required"
+                    }
+                  }
+                },
+                "required": [
+                  "faceImageBase64",
+                  "userId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "人脸数据更新成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessWithData"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "faceId": {
+                              "type": "integer",
+                              "format": "int",
+                              "description": "人脸数据ID",
+                              "readOnly": true,
+                              "x-go-type-skip-optional-pointer": true
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "format": "int",
+                              "description": "用户ID",
+                              "readOnly": true,
+                              "x-go-type-skip-optional-pointer": true
+                            },
+                            "faceImageBase64": {
+                              "type": "string",
+                              "description": "人脸图像的Base64编码",
+                              "x-go-type-skip-optional-pointer": true
+                            },
+                            "createdAt": {
+                              "type": "integer",
+                              "format": "int",
+                              "description": "创建时间（Unix时间戳，单位：秒）",
+                              "readOnly": true,
+                              "x-go-type-skip-optional-pointer": true
+                            },
+                            "updatedAt": {
+                              "type": "integer",
+                              "format": "int",
+                              "description": "最后更新时间（Unix时间戳，单位：秒）",
+                              "readOnly": true,
+                              "x-go-type-skip-optional-pointer": true
+                            }
+                          },
+                          "required": [
+                            "faceImageBase64"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "201": {
+            "description": "人脸数据创建成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessWithData"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "faceId": {
+                              "type": "integer",
+                              "format": "int",
+                              "description": "人脸数据ID",
+                              "readOnly": true,
+                              "x-go-type-skip-optional-pointer": true
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "format": "int",
+                              "description": "用户ID",
+                              "readOnly": true,
+                              "x-go-type-skip-optional-pointer": true
+                            },
+                            "createdAt": {
+                              "type": "integer",
+                              "format": "int",
+                              "description": "创建时间（Unix时间戳，单位：秒）",
+                              "readOnly": true,
+                              "x-go-type-skip-optional-pointer": true
+                            },
+                            "updatedAt": {
+                              "type": "integer",
+                              "format": "int",
+                              "description": "最后更新时间（Unix时间戳，单位：秒）",
+                              "readOnly": true,
+                              "x-go-type-skip-optional-pointer": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误，例如提供的Base64格式不正确或人脸识别失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "用户未登录或提供的Token无效/过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "500": {
+            "description": "服务器内部错误，保存人脸数据时发生异常",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/users/me/face/verify": {
+      "post": {
+        "summary": "验证人脸数据",
+        "deprecated": false,
+        "description": "验证提供的人脸数据是否与当前用户的人脸数据匹配",
+        "tags": [
+          "Face"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "integer",
+                    "format": "int",
+                    "description": "用户ID",
+                    "readOnly": true,
+                    "x-go-type-skip-optional-pointer": true
+                  },
+                  "faceImagesBase64": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "待验证的人脸图像Base64编码数组",
+                    "x-oapi-codegen-extra-tags": {
+                      "binding": "required,min=1"
+                    }
+                  }
+                },
+                "required": [
+                  "userId",
+                  "faceImagesBase64"
+                ],
+                "description": "人脸验证请求数据"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "人脸验证成功，返回匹配结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessWithData"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "isMatch": {
+                              "type": "boolean",
+                              "description": "人脸是否匹配",
+                              "x-go-type-skip-optional-pointer": true
+                            }
+                          },
+                          "required": [
+                            "isMatch"
+                          ],
+                          "description": "人脸验证响应数据"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "examples": {
+                  "验证示例": {
+                    "summary": "人脸验证示例",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "isMatch": true
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误，例如提供的Base64格式不正确或人脸识别失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "用户未登录或提供的Token无效/过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "当前用户尚未设置人脸数据，无法进行验证",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "500": {
+            "description": "服务器内部错误，处理批量人脸验证时发生异常",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BaseResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "description": "响应码，0表示成功，1表示失败",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "code"
+        ]
+      },
+      "SuccessWithData": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "data": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "description": "具体数据结构需在各API中定义",
+                    "properties": {}
+                  },
+                  {
+                    "type": "array",
+                    "description": "具体数据结构需在各API中定义",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                ]
+              }
+            },
+            "required": [
+              "data"
+            ]
+          }
+        ]
+      },
+      "Unauthorized": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "message"
+            ]
+          }
+        ]
+      },
+      "NotFound": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "message"
+            ]
+          }
+        ]
+      },
+      "BadRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "message"
+            ]
+          }
+        ]
+      },
+      "InternalServerError": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "message"
+            ]
+          }
+        ]
+      }
+    },
+    "securitySchemes": {}
+  },
+  "servers": [],
+  "security": []
+}
