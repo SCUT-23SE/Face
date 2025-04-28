@@ -19,10 +19,10 @@ class BaseResponse(Model):
         """BaseResponse - a model defined in OpenAPI
 
         :param code: The code of this BaseResponse.  # noqa: E501
-        :type code: int
+        :type code: str
         """
         self.openapi_types = {
-            'code': int
+            'code': str
         }
 
         self.attribute_map = {
@@ -49,7 +49,7 @@ class BaseResponse(Model):
         响应码，0表示成功，1表示失败  # noqa: E501
 
         :return: The code of this BaseResponse.
-        :rtype: int
+        :rtype: str
         """
         return self._code
 
@@ -60,9 +60,9 @@ class BaseResponse(Model):
         响应码，0表示成功，1表示失败  # noqa: E501
 
         :param code: The code of this BaseResponse.
-        :type code: int
+        :type code: str
         """
-        allowed_values = [0, 1]  # noqa: E501
+        allowed_values = ["0", "1"]  # noqa: E501
         if code not in allowed_values:
             raise ValueError(
                 "Invalid value for `code` ({0}), must be one of {1}"

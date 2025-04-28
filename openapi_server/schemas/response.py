@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 class BaseResponse(BaseModel):
     """基础响应模型"""
-    code: int = Field(..., description="响应码，0表示成功，1表示失败")
+    code: str = Field(..., description="响应码，0表示成功，1表示失败")
 
 class SuccessWithData(BaseResponse):
     """带数据的成功响应"""
@@ -31,20 +31,20 @@ class VerifyResult(BaseModel):
 # 预定义的错误响应模型
 class BadRequest(ErrorResponse):
     """请求参数错误"""
-    code: Literal[1] = 1
+    code: Literal["1"] = "1"
     message: str = Field(..., description="请求参数错误信息")
 
 class Unauthorized(ErrorResponse):
     """未授权错误"""
-    code: Literal[1] = 1
+    code: Literal["1"] = "1"
     message: str = Field(..., description="未授权错误信息")
 
 class NotFound(ErrorResponse):
     """资源未找到错误"""
-    code: Literal[1] = 1
+    code: Literal["1"] = "1"
     message: str = Field(..., description="资源未找到错误信息")
 
 class InternalServerError(ErrorResponse):
     """服务器内部错误"""
-    code: Literal[1] = 1
+    code: Literal["1"] = "1"
     message: str = Field(..., description="服务器内部错误信息") 

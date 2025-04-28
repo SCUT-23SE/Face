@@ -13,7 +13,7 @@ def validation_exception_handler(request: Request, exc: RequestValidationError):
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={
-                "code": 1,
+                "code": "1",
                 "message": "无效的请求参数"
             }
         )
@@ -39,7 +39,7 @@ def validation_exception_handler(request: Request, exc: RequestValidationError):
     return JSONResponse(
         status_code=status.HTTP_400_BAD_REQUEST,
         content={
-            "code": 1,
+            "code": "1",
             "message": message
         }
     )
@@ -49,7 +49,7 @@ def http_exception_handler(request: Request, exc: HTTPException):
     return JSONResponse(
         status_code=exc.status_code,
         content={
-            "code": 1,
+            "code": "1",
             "message": exc.detail
         }
     )
@@ -59,7 +59,7 @@ def general_exception_handler(request: Request, exc: Exception):
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content={
-            "code": 1,
+            "code": "1",
             "message": str(exc) if str(exc) else "服务器内部错误"
         }
     ) 

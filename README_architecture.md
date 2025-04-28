@@ -1,7 +1,6 @@
 # Face Recognition API
 
 基于 FastAPI 和 ArcFace 的人脸识别系统，提供人脸注册、验证和考勤管理功能。
-训练数据在本地保存，不做云端推送
 
 ## 项目架构
 

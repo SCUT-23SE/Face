@@ -32,7 +32,7 @@ class ErrorHandlerMiddleware(BaseHTTPMiddleware):
             return JSONResponse(
                 status_code=500,
                 content={
-                    "code": 1,
+                    "code": "1",
                     "message": str(e) if str(e) else "服务器内部错误"
                 }
             ) 

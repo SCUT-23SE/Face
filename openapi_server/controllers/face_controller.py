@@ -53,7 +53,7 @@ def get_user_face(
             )
         
         return {
-            "code": 0,
+            "code": "0",
             "data": FaceData(**face_data).model_dump()
         }
         
@@ -109,7 +109,7 @@ def create_or_update_face(
             request.faceImageBase64
         )
         return {
-            "code": 0,
+            "code": "0",
             "data": FaceData(**face_data).model_dump()
         }
     except ValueError as e:
@@ -168,7 +168,7 @@ async def verify_face(
         )
         
         return {
-            "code": 0,
+            "code": "0",
             "data": result
         }
     except ValueError as e:

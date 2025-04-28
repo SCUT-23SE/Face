@@ -467,10 +467,10 @@
         "type": "object",
         "properties": {
           "code": {
-            "type": "integer",
+            "type": "string",
             "enum": [
-              0,
-              1
+              "0",
+              "1"
             ],
             "description": "响应码，0表示成功，1表示失败",
             "x-go-type-skip-optional-pointer": true

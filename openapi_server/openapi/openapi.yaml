@@ -386,9 +386,9 @@ components:
                 code:
                     description: 响应码，0表示成功，1表示失败
                     enum:
-                        - 0
-                        - 1
-                    type: integer
+                        - '0'
+                        - '1'
+                    type: string
                     x-go-type-skip-optional-pointer: true
             required:
                 - code
