@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from openapi_server.controllers.face_controller import router
 from openapi_server.exceptions import (
     validation_exception_handler,
@@ -14,6 +15,15 @@ app = FastAPI(
     title="Face Recognition API",
     description="人脸识别 API",
     version="1.0.0"
+)
+
+# 添加CORS中间件
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 允许所有来源，生产环境应该设置具体的域名
+    allow_credentials=True,
+    allow_methods=["*"],  # 允许所有方法
+    allow_headers=["*"],  # 允许所有头部
 )
 
 # 注册中间件
@@ -32,6 +42,6 @@ if __name__ == "__main__":
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
-        port=8080,
+        port=3000,
         reload=True
     ) 

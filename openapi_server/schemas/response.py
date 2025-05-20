@@ -16,6 +16,14 @@ class ErrorResponse(BaseResponse):
     """错误响应"""
     message: str = Field(..., description="错误信息")
 
+    class Config:
+        schema_extra = {
+            "example": {
+                "code": "1",
+                "message": "错误信息"
+            }
+        }
+
 class FaceData(BaseModel):
     """人脸数据"""
     faceId: int = Field(..., description="人脸数据ID")
@@ -34,17 +42,49 @@ class BadRequest(ErrorResponse):
     code: Literal["1"] = "1"
     message: str = Field(..., description="请求参数错误信息")
 
+    class Config:
+        schema_extra = {
+            "example": {
+                "code": "1",
+                "message": "请求参数错误"
+            }
+        }
+
 class Unauthorized(ErrorResponse):
     """未授权错误"""
     code: Literal["1"] = "1"
     message: str = Field(..., description="未授权错误信息")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "code": "1",
+                "message": "未授权访问"
+            }
+        }
 
 class NotFound(ErrorResponse):
     """资源未找到错误"""
     code: Literal["1"] = "1"
     message: str = Field(..., description="资源未找到错误信息")
 
+    class Config:
+        schema_extra = {
+            "example": {
+                "code": "1",
+                "message": "资源未找到"
+            }
+        }
+
 class InternalServerError(ErrorResponse):
     """服务器内部错误"""
     code: Literal["1"] = "1"
-    message: str = Field(..., description="服务器内部错误信息") 
+    message: str = Field(..., description="服务器内部错误信息")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "code": "1",
+                "message": "服务器内部错误"
+            }
+        } 
